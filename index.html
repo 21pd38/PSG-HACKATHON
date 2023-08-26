@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resolution Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 80%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        h2 {
+            color: #007bff;
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 5px;
+            color: #555;
+        }
+
+        select {
+            padding: 5px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 8px 15px;
+            font-size: 14px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        li {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .blue-text {
+            color: #007bff;
+        }
+
+        .black-text {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Incident Resolution Viewer</h1>
+        <form method="post">
+            <label for="type_id">Select Type:</label>
+            <select name="type_id" id="type_id">
+                <option value="" disabled selected>Select a Type</option>
+                {% for type_id in type_ids %}
+                <option value="{{ type_id.type_id }}">{{ type_id.type_id }}</option>
+                {% endfor %}
+            </select>
+
+            <br><br>
+
+            <label for="incident_id">Select Incident:</label>
+            <select name="incident_id" id="incident_id">
+                <option value="" disabled selected>Select an Incident</option>
+                {% for incident_id in incident_ids %}
+                <option value="{{ incident_id.incident_id }}">{{ incident_id.incident_id }}</option>
+                {% endfor %}
+            </select>
+
+            <br><br>
+
+            <button type="submit">Show Resolutions</button>
+        </form>
+
+        {% if selected_type_name and selected_incident_name %}
+        <h2 class="blue-text">Selected Type:</h2>
+        <p class="black-text">
+            {{ selected_type_name|replace(". ", ".<br>&bull; ") }}
+        </p>
+
+        <h2 class="blue-text">Selected Incident:</h2>
+        <p class="black-text">
+            {{ selected_incident_name|replace(". ", ".<br>&bull; ") }}
+        </p>
+        {% endif %}
+
+        <h2 class="blue-text">Resolutions:</h2>
+        <ul>
+            {% for resolution in resolutions %}
+            <li class="black-text">
+                {{ resolution.resolution_text|replace(". ", ".<br>&bull; ") }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
